@@ -1,0 +1,38 @@
+{
+  "name": "minimal2b",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "module": "commonjs",
+  "exports": {
+    "./grpc": "./grpc/index.js",
+    "./grpc/*": "./grpc/*.js",
+    "./http": "./http/index.js",
+    "./http/*": "./http/*.js",
+    "./*": "./*.js"
+  },
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "sh build.sh",
+    "publish": "cd dist && npm publish"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.13",
+    "body-parser": "^1.20.2",
+    "class-validator": "^0.14.0",
+    "cron": "^2.2.0",
+    "express": "^4.18.2",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "@types/cron": "^2.0.1",
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.15.11",
+    "@typescript-eslint/eslint-plugin": "^5.56.0",
+    "@typescript-eslint/parser": "^5.56.0",
+    "typescript": "^5.0.2"
+  },
+  "keywords": [],
+  "author": "Artyom Silantiev",
+  "license": "MIT"
+}
