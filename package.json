@@ -1,7 +1,7 @@
 {
   "name": "minimal2b",
-  "version": "1.0.0",
-  "description": "",
+  "version": "0.1.0",
+  "description": "Framework for making typescript backend apps",
   "main": "index.js",
   "module": "commonjs",
   "exports": {
@@ -10,6 +10,10 @@
     "./http": "./http/index.js",
     "./http/*": "./http/*.js",
     "./*": "./*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/artyom-silantiev/minimal2b.git"
   },
   "types": "index.d.ts",
   "scripts": {
@@ -32,7 +36,10 @@
     "@typescript-eslint/parser": "^5.56.0",
     "typescript": "^5.0.2"
   },
-  "keywords": [],
+  "keywords": [
+    "backend",
+    "framework"
+  ],
   "author": "Artyom Silantiev",
   "license": "MIT"
 }
