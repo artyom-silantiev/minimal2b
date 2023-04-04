@@ -1,4 +1,4 @@
-import { Route } from '@public/http';
+import { Route } from '@src/http';
 import { AppModule } from './app.module';
 
 export default [

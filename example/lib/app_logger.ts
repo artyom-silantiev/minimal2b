@@ -1,4 +1,4 @@
-import { LogLevel, Logger, setGlobalLogLevel } from '@public/logger';
+import { LogLevel, Logger, setGlobalLogLevel } from '@src/logger';
 import { useEnv } from './env/env';
 
 if (useEnv().isDevEnv()) {

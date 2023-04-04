@@ -66,6 +66,10 @@ function listenExit() {
       console.error('EXIT HANDLER ERROR', e);
     }
 
+    if (evtOrExitCodeOrError instanceof Error) {
+      console.error(evtOrExitCodeOrError);
+    }
+
     process.exit(isNaN(+evtOrExitCodeOrError) ? 1 : +evtOrExitCodeOrError);
   }
 

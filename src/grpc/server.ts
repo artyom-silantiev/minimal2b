@@ -34,7 +34,7 @@ export function tryUseGrpcService(grpcService: any) {
   const grpcServiceCalls = metadata.get([
     grpcService,
     sGrpcServiceCalls,
-  ]) as Map<string, Map<symbol, any>>;
+  ]) as Map<string, Map<string, any>>;
   const grpcServiceMiddlewares = metadata.get([
     grpcService,
     sGrpcMiddlewares,

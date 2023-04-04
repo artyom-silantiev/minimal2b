@@ -1,4 +1,4 @@
-import { Ctx } from '@public/http';
+import { Ctx } from '@src/http';
 import express from 'express';
 
 export type AppReq = express.Request & {

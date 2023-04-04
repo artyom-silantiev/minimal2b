@@ -3,8 +3,8 @@ import { createAppLogger } from '@example/lib/app_logger';
 import { useEnv } from '@example/lib/env/env';
 import routes from './routes';
 import express from 'express';
-import { defineApplication } from '@public/application';
-import { catchHttpException } from '@public/http';
+import { defineApplication } from '@src/application';
+import { catchHttpException } from '@src/http';
 
 const logger = createAppLogger('App');
 

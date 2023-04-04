@@ -1,4 +1,4 @@
-# Run example apps
+# Run example app
 
 ```sh
 yarn example:one

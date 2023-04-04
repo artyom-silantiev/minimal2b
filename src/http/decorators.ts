@@ -1,10 +1,10 @@
 import { metadata } from '../metadata';
 import { HttpHandler, CtxHandler, Method, RouteHandler } from './types';
 
-const sHttp = Symbol('sHttp');
-const sHttpMiddlewares = Symbol('sHttpMiddlewares');
-const sHttpHandlers = Symbol('sHttpHandlers');
-const sHttpHandler = Symbol('sHttpHandler');
+const sHttp = 'sHttp';
+const sHttpMiddlewares = 'sHttpMiddlewares';
+const sHttpHandlers = 'sHttpHandlers';
+const sHttpHandler = 'sHttpHandler';
 
 // Controller decorator
 

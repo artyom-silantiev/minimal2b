@@ -1,5 +1,5 @@
 export class Metadata {
-  private METADATA = new Map<any, any>();
+  METADATA = new Map<any, any>();
 
   has(keySet: any[]): boolean {
     let map = this.METADATA;
@@ -61,4 +61,8 @@ export class Metadata {
   }
 }
 
-export const metadata = new Metadata();
+if (!global.__metadata) {
+  global.__metadata = new Metadata();
+}
+
+export const metadata = global.__metadata;

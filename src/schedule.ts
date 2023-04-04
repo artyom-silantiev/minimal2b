@@ -4,9 +4,9 @@ import { CronJob } from 'cron';
 
 const logger = createLogger('Cron');
 
-const sCron = Symbol('Cron');
-const sScheduleHandlers = Symbol('ScheduleHandlers');
-const sQueueJobHandlers = Symbol('QueueJobHandlers');
+const sCron = 'Cron';
+const sScheduleHandlers = 'ScheduleHandlers';
+const sQueueJobHandlers = 'QueueJobHandlers';
 
 // @Cron
 

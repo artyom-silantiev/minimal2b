@@ -1,4 +1,4 @@
-import { QueueJob, Schedule, ScheduleExpression } from '@public/schedule';
+import { QueueJob, Schedule, ScheduleExpression } from '@src/schedule';
 
 // @Cron()
 export class AppCronService {
