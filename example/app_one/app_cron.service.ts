@@ -1,6 +1,6 @@
-import { QueueJob, Schedule, ScheduleExpression } from '@src/schedule';
+import { Cron, QueueJob, Schedule, ScheduleExpression } from '@src/schedule';
 
-// @Cron()
+@Cron()
 export class AppCronService {
   @Schedule(ScheduleExpression.EVERY_30_SECONDS)
   scheduleHandler() {
