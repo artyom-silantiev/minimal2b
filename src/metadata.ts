@@ -61,8 +61,4 @@ export class Metadata {
   }
 }
 
-if (!global.__metadata) {
-  global.__metadata = new Metadata();
-}
-
-export const metadata = global.__metadata;
+export const metadata = new Metadata();

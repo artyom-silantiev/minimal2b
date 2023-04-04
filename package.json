@@ -1,6 +1,6 @@
 {
   "name": "minimal2b",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Framework for making typescript backend apps",
   "main": "index.js",
   "types": "index.d.ts",
