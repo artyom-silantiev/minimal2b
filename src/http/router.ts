@@ -151,8 +151,8 @@ function parseRoutes(
       }
     }
 
-    if (route.handler) {
-      useRouteHandlers([route.handler], expressRouter, routePath);
+    if (route.path && route.method && route.handler) {
+      useRouteHandlers([route as RouteHandler], expressRouter, routePath);
     }
 
     if (route.controller) {

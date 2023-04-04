@@ -1,9 +1,9 @@
-import { onAppStart, parseItemForGRPC } from './grpc/server';
-import { defineModule, ModuleSetup, modules } from './module';
-import { useCronService } from './schedule';
+import { onAppStart, tryUseGrpcService } from './grpc/server';
+import { modules, AppModuleSetup, defineAppModule } from './module';
+import { tryUseCronService } from './schedule';
 
-export function defineApplication<T>(setup: ModuleSetup<T>) {
-  const appModule = defineModule(setup);
+export function defineApplication<T>(setup: AppModuleSetup<T>) {
+  const appModule = defineAppModule(setup);
 
   async function run() {
     listenExit();
@@ -19,8 +19,8 @@ export function defineApplication<T>(setup: ModuleSetup<T>) {
       }
 
       moduleWrap.meta.items.forEach((item) => {
-        parseItemForGRPC(item);
-        useCronService(item);
+        tryUseGrpcService(item);
+        tryUseCronService(item);
       });
     }
 

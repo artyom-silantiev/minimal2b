@@ -86,5 +86,5 @@ export function setGlobalLogLevel(logLevel: LogLevel) {
 }
 
 export function createLogger(name) {
-  return new Logger(name);
+  return new Logger({ name });
 }

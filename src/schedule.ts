@@ -117,7 +117,7 @@ function useQueueJobs(cronService: any) {
 
 // CronService metadata parsers
 
-export function useCronService<T>(cronService: Object) {
+export function tryUseCronService<T>(cronService: Object) {
   if (!metadata.has([cronService.constructor, sCron])) {
     return;
   }

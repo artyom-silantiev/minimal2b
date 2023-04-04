@@ -14,6 +14,6 @@ npm i minimal2b
 yarn add minimal2b
 ```
 
-## Example project
+## Example
 
-https://github.com/artyom-silantiev/tmp-minimal-app
+https://github.com/artyom-silantiev/minimal2b/example

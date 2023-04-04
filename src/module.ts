@@ -1,4 +1,7 @@
 export const modules = [] as ModuleWrap<unknown>[];
+import express from 'express';
+import { initAppRouter } from './http/router';
+import { Route } from './http/types';
 
 function addAppModule<T>(moduleWrap: ModuleWrap<T>) {
   modules.push(moduleWrap);
@@ -16,6 +19,7 @@ export type ModuleWrap<T> = {
   module: T;
 };
 
+// module
 function getModuleSetupCtx(meta: ModuleMeta) {
   return {
     useItems<T extends Object>(items: T) {
@@ -33,11 +37,29 @@ function getModuleSetupCtx(meta: ModuleMeta) {
   };
 }
 type ModuleSetupCtx = ReturnType<typeof getModuleSetupCtx>;
-
 export type ModuleSetup<T> = (ctx: ModuleSetupCtx) => T;
 
+// app module
+function getAppModuleSetupCtx(meta: ModuleMeta) {
+  return {
+    ...getModuleSetupCtx(meta),
+    ...{
+      initRoutes: (app: express.Application, routes: Route[]) => {
+        initAppRouter(app, routes);
+      },
+    },
+  };
+}
+type AppModuleSetupCtx = ReturnType<typeof getAppModuleSetupCtx>;
+export type AppModuleSetup<T> = (ctx: AppModuleSetupCtx) => T;
+
+// define module
 let modulesCount = 0;
-export function defineModule<T>(setup: ModuleSetup<T>) {
+
+function __defineModule<T>(
+  appModule: boolean,
+  setup: ModuleSetup<T> | AppModuleSetup<T>
+) {
   const moduleId = modulesCount++;
 
   const meta = {
@@ -46,15 +68,28 @@ export function defineModule<T>(setup: ModuleSetup<T>) {
     destroyHandler: null as null | { (): Promise<void> },
   } as ModuleMeta;
 
-  const moduleCtx = getModuleSetupCtx(meta);
+  let moduleCtx!: ModuleSetupCtx | AppModuleSetupCtx;
+  if (appModule) {
+    moduleCtx = getAppModuleSetupCtx(meta);
+  } else {
+    moduleCtx = getModuleSetupCtx(meta);
+  }
 
   const moduleWrap = {
     id: moduleId,
     meta,
-    module: setup(moduleCtx),
+    module: setup(moduleCtx as any),
   } as ModuleWrap<T>;
 
   addAppModule(moduleWrap);
 
   return moduleWrap.module;
+}
+
+export function defineModule<T>(setup: ModuleSetup<T>) {
+  return __defineModule(false, setup);
+}
+
+export function defineAppModule<T>(setup: AppModuleSetup<T>) {
+  return __defineModule(true, setup);
 }

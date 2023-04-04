@@ -21,7 +21,7 @@ let grpcServer: grpc.Server;
 let globalMiddlewares = [] as GrpcMiddleware[];
 const logger = createLogger('gRPC');
 
-export function parseItemForGRPC(grpcService: any) {
+export function tryUseGrpcService(grpcService: any) {
   const grpcServiceMeta = metadata.get([
     grpcService.constructor,
     sGrpcService,

@@ -9,15 +9,16 @@
     "strict": true,
     "skipLibCheck": true,
     "target": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "lib": ["ES2022"],
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@lib/*": ["example/lib/*"],
+      "@src/*": ["src/*"],
+      "@public/*": ["public/*"],
+      "@example/*": ["example/*"],
       "#grpc/*": ["grpc/_types/*"]
     }
   },
-  "include": ["./src/**/*.ts"],
   "exclude": ["node_modules"]
 }

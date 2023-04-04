@@ -1,9 +1,9 @@
 {
   "name": "minimal2b",
-  "version": "0.1.0",
+  "version": "0.1.3",
   "description": "Framework for making typescript backend apps",
   "main": "index.js",
-  "module": "commonjs",
+  "types": "index.d.ts",
   "exports": {
     "./grpc": "./grpc/index.js",
     "./grpc/*": "./grpc/*.js",
@@ -15,16 +15,18 @@
     "type": "git",
     "url": "https://github.com/artyom-silantiev/minimal2b.git"
   },
-  "types": "index.d.ts",
   "scripts": {
+    "example:one": "nodemon -r tsconfig-paths/register example/app_one/main.ts",
+    "example:two": "nodemon -r tsconfig-paths/register example/app_two/main.ts",
     "build": "sh build.sh",
-    "publish": "cd dist && npm publish"
+    "": "",
+    "gen-grpc-types": "npx proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=grpc/_types/ grpc/*.proto"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.13",
     "body-parser": "^1.20.2",
     "class-validator": "^0.14.0",
-    "cron": "^2.2.0",
+    "cron": "^2.3.0",
     "express": "^4.18.2",
     "moment": "^2.29.4"
   },
@@ -32,9 +34,14 @@
     "@types/cron": "^2.0.1",
     "@types/express": "^4.17.17",
     "@types/node": "^18.15.11",
-    "@typescript-eslint/eslint-plugin": "^5.56.0",
-    "@typescript-eslint/parser": "^5.56.0",
-    "typescript": "^5.0.2"
+    "@typescript-eslint/eslint-plugin": "^5.57.1",
+    "@typescript-eslint/parser": "^5.57.1",
+    "nodemon": "^2.0.22",
+    "ts-node": "^10.9.1",
+    "tsconfig-paths": "^4.1.2",
+    "typescript": "^5.0.3",
+    "fs-extra": "^11.1.0",
+    "dotenv": "^16.0.3"
   },
   "keywords": [
     "backend",

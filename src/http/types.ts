@@ -39,9 +39,11 @@ export type StaticOptions = {
 
 export type Route = {
   path: string;
+  method?: Method;
+  handler?: CtxHandler;
+
   middlewares?: CtxHandler[];
 
-  handler?: RouteHandler;
   controller?: any;
   controllers?: any[];
 
