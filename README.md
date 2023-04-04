@@ -16,4 +16,4 @@ yarn add minimal2b
 
 ## Example
 
-https://github.com/artyom-silantiev/minimal2b/example
+https://github.com/artyom-silantiev/minimal2b/tree/master/example
