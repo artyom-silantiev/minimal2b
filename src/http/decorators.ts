@@ -1,10 +1,10 @@
 import { metadata } from '../metadata';
 import { HttpHandler, CtxHandler, Method, RouteHandler } from './types';
 
-const sHttp = 'sHttp';
-const sHttpMiddlewares = 'sHttpMiddlewares';
-const sHttpHandlers = 'sHttpHandlers';
-const sHttpHandler = 'sHttpHandler';
+const sHttp = Symbol('sHttp');
+const sHttpMiddlewares = Symbol('sHttpMiddlewares');
+const sHttpHandlers = Symbol('sHttpHandlers');
+const sHttpHandler = Symbol('sHttpHandler');
 
 // Controller decorator
 
@@ -32,7 +32,7 @@ export function HttpMiddlewares(middlewares: CtxHandler[]) {
 
 // Controller methods decorators
 
-function httpHandler(method: Method, path: string) {
+function baseHttpDecorator(method: Method, path: string) {
   return function (target: Object, key: string | symbol) {
     metadata.set([target.constructor, sHttpHandlers, key, sHttpHandler], {
       method,
@@ -43,39 +43,40 @@ function httpHandler(method: Method, path: string) {
 }
 
 export function All(path: string = '') {
-  return httpHandler('ALL', path);
+  return baseHttpDecorator(Method.ALL, path);
 }
 
 export function Get(path: string = '') {
-  return httpHandler('GET', path);
+  return baseHttpDecorator(Method.GET, path);
 }
 
 export function Head(path: string = '') {
-  return httpHandler('HEAD', path);
+  return baseHttpDecorator(Method.HEAD, path);
 }
 
 export function Options(path: string = '') {
-  return httpHandler('OPTIONS', path);
+  return baseHttpDecorator(Method.OPTIONS, path);
 }
 
 export function Patch(path: string = '') {
-  return httpHandler('PATCH', path);
+  return baseHttpDecorator(Method.PATCH, path);
 }
 
 export function Post(path: string = '') {
-  return httpHandler('POST', path);
+  return baseHttpDecorator(Method.POST, path);
 }
 
 export function Put(path: string = '') {
-  return httpHandler('PUT', path);
+  return baseHttpDecorator(Method.PUT, path);
 }
 
 export function Delete(path: string = '') {
-  return httpHandler('DELETE', path);
+  return baseHttpDecorator(Method.DELETE, path);
 }
 
 // controller metadata parser
 
+/** @inernal */
 export function parseController(controller: Object) {
   if (!metadata.has([controller.constructor, sHttp])) {
     return null;

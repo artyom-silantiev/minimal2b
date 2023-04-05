@@ -8,13 +8,14 @@
     "strictPropertyInitialization": false,
     "strict": true,
     "skipLibCheck": true,
+    "stripInternal": true,
     "target": "ES2022",
     "moduleResolution": "nodenext",
     "lib": ["ES2022"],
     "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
-      "@src/*": ["src/*"],
+      "minimal2b/*": ["src/*"],
       "@example/*": ["example/*"],
       "#grpc/*": ["grpc/_types/*"]
     }

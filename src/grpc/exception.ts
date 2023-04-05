@@ -7,6 +7,7 @@ export class GrpcException extends Error {
   }
 }
 
+/** @inernal */
 export function catchGrpcException(
   error: unknown,
   callback: (err: any) => void

@@ -44,7 +44,7 @@ function getAppModuleSetupCtx(meta: ModuleMeta) {
   return {
     ...getModuleSetupCtx(meta),
     ...{
-      initRoutes: (app: express.Application, routes: Route[]) => {
+      initHttpRoutes: (app: express.Application, routes: Route[]) => {
         initAppRouter(app, routes);
       },
     },

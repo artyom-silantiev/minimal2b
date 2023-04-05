@@ -1,1 +1,1 @@
-export function noempty() {}
+function noempty() {}

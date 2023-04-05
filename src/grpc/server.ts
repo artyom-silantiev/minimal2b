@@ -21,6 +21,7 @@ let grpcServer: grpc.Server;
 let globalMiddlewares = [] as GrpcMiddleware[];
 const logger = createLogger('gRPC');
 
+/** @inernal */
 export function tryUseGrpcService(grpcService: any) {
   const grpcServiceMeta = metadata.get([
     grpcService.constructor,
@@ -34,7 +35,7 @@ export function tryUseGrpcService(grpcService: any) {
   const grpcServiceCalls = metadata.get([
     grpcService,
     sGrpcServiceCalls,
-  ]) as Map<string, Map<string, any>>;
+  ]) as Map<string, Map<symbol, any>>;
   const grpcServiceMiddlewares = metadata.get([
     grpcService,
     sGrpcMiddlewares,
@@ -65,6 +66,7 @@ export function tryUseGrpcService(grpcService: any) {
   );
 }
 
+/** @inernal */
 export function onAppStart() {
   if (grpcServer) {
     const port = process.env.NODE_PORT_GRTC || '8080';

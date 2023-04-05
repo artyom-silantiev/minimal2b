@@ -9,6 +9,7 @@ import {
   RouteHandler,
   getCtx,
 } from './types';
+import { catchHttpException } from './exception';
 
 const logger = createLogger('Router');
 
@@ -120,45 +121,33 @@ function parseRoutes(
   path: string = '',
   level: number = 0
 ) {
-  if (!path.startsWith('/')) {
-    path = '/' + path;
-  }
-
   for (const route of routes) {
-    if (route.path.startsWith('/')) {
-      route.path = route.path.substring(1);
+    if (!route.path.startsWith('/')) {
+      route.path = '/' + route.path;
     }
 
-    let appIsApp = true;
-    if (Object.getPrototypeOf(app) == express.Router) {
-      appIsApp = false;
-    }
     const expressRouter = express.Router();
 
-    const routePath = path + route.path;
-    logger.log(`RouterPath:"${routePath}", deep:${level}`);
+    const basePath = (path + route.path).replace('//', '/');
+    logger.log(`RouterPath:"${basePath}", deep:${level}`);
 
     if (route.middlewares) {
       for (const middleware of route.middlewares) {
         useRouteHandler(
           {
-            method: 'USE',
+            method: Method.USE,
             handler: middleware,
           },
           expressRouter,
-          routePath
+          basePath
         );
       }
-    }
-
-    if (route.path && route.method && route.handler) {
-      useRouteHandlers([route as RouteHandler], expressRouter, routePath);
     }
 
     if (route.controller) {
       const routeHandlers = parseController(route.controller);
       if (routeHandlers) {
-        useRouteHandlers(routeHandlers, expressRouter, routePath);
+        useRouteHandlers(routeHandlers, expressRouter, basePath);
       }
     }
 
@@ -166,28 +155,26 @@ function parseRoutes(
       for (const controller of route.controllers) {
         const routeHandlers = parseController(controller);
         if (routeHandlers) {
-          useRouteHandlers(routeHandlers, expressRouter, routePath);
+          useRouteHandlers(routeHandlers, expressRouter, basePath);
         }
       }
     }
 
     if (route.subRoutes) {
-      parseRoutes(expressRouter, route.subRoutes, routePath, level + 1);
+      parseRoutes(expressRouter, route.subRoutes, basePath, level + 1);
     }
 
     if (route.static) {
       app.use(express.static(route.static.root));
-      logger.log(`STATIC ${routePath} => ${route.static.root}`);
+      logger.log(`STATIC ${basePath} => ${route.static.root}`);
     }
 
-    if (appIsApp) {
-      (app as express.Application).use(routePath, expressRouter);
-    } else {
-      (app as express.Router).use(routePath, expressRouter);
-    }
+    (app as any).use(basePath, expressRouter);
   }
 }
 
+/** @inernal */
 export function initAppRouter(app: express.Application, routes: Route[]) {
   parseRoutes(app, routes, '', 0);
+  app.use(catchHttpException);
 }

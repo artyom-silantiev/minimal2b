@@ -19,8 +19,8 @@ import {
   GrpcService,
   GrpcStreamCall,
   GrpcStreamMethod,
-} from '@src/grpc';
-import { validateDto } from '@src/validator';
+} from 'minimal2b/grpc';
+import { validateDto } from 'minimal2b/validator';
 
 const env = useEnv();
 

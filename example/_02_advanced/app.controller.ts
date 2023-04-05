@@ -7,8 +7,8 @@ import {
   Get,
   HttpException,
   HttpMiddlewares,
-} from '@src/http';
-import { validateDto } from '@src/validator';
+} from 'minimal2b/http';
+import { validateDto } from 'minimal2b/validator';
 
 export class LoginDto {
   @IsString()

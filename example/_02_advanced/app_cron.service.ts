@@ -1,4 +1,9 @@
-import { Cron, QueueJob, Schedule, ScheduleExpression } from '@src/schedule';
+import {
+  Cron,
+  QueueJob,
+  Schedule,
+  ScheduleExpression,
+} from 'minimal2b/schedule';
 
 @Cron()
 export class AppCronService {

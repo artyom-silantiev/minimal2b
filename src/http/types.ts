@@ -39,8 +39,6 @@ export type StaticOptions = {
 
 export type Route = {
   path: string;
-  method?: Method;
-  handler?: CtxHandler;
 
   middlewares?: CtxHandler[];
 
@@ -52,16 +50,17 @@ export type Route = {
   static?: StaticOptions;
 };
 
-export type Method =
-  | 'USE'
-  | 'ALL'
-  | 'GET'
-  | 'HEAD'
-  | 'OPTIONS'
-  | 'PATCH'
-  | 'POST'
-  | 'PUT'
-  | 'DELETE';
+export enum Method {
+  USE = 'USE',
+  ALL = 'ALL',
+  GET = 'GET',
+  HEAD = 'HEAD',
+  OPTIONS = 'OPTIONS',
+  PATCH = 'PATCH',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
 
 export type HttpHandler = {
   method: Method;

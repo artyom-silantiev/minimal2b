@@ -58,6 +58,7 @@ export class HttpException extends Error {
   }
 }
 
+/** @inernal */
 export function catchHttpException(
   error: Error,
   req: express.Request,

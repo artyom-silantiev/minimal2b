@@ -14,8 +14,15 @@ export class Logger {
   name = '';
   logLevel: LogLevel;
 
-  constructor(params?: { name?: string; logLevel?: LogLevel }) {
+  constructor();
+  constructor(name: string);
+  constructor(params: { name?: string; logLevel?: LogLevel });
+  constructor(params?: string | { name?: string; logLevel?: LogLevel }) {
     params = params || {};
+    if (typeof params === 'string') {
+      params = { name: params };
+    }
+
     this.name = params.name || '';
     this.logLevel = params.logLevel || globalLogLevel;
   }

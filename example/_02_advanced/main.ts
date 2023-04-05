@@ -3,8 +3,7 @@ import { createAppLogger } from '@example/lib/app_logger';
 import { useEnv } from '@example/lib/env/env';
 import routes from './routes';
 import express from 'express';
-import { defineApplication } from '@src/application';
-import { catchHttpException } from '@src/http';
+import { defineApplication } from 'minimal2b/application';
 
 const logger = createAppLogger('App');
 
@@ -14,8 +13,7 @@ const application = defineApplication((ctx) => {
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
-  ctx.initRoutes(app, routes);
-  app.use(catchHttpException);
+  ctx.initHttpRoutes(app, routes);
 
   ctx.onModuleInit(() => {
     app.listen(env.NODE_PORT, () => {

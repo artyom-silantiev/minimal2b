@@ -1,22 +1,3 @@
-# Minimal2b (v0.1.6)
-
-### Description
-
-```
-Framework for making typescript backend apps
-```
-
-### Install
-
-```sh
-npm i minimal2b
-# or
-yarn add minimal2b
-```
-
-### Base app example
-
-```typescript
 import bodyParser from 'body-parser';
 import { IsString } from 'class-validator';
 import express from 'express';
@@ -55,7 +36,7 @@ const helloController = new HelloController();
 const routes = [
   {
     path: '',
-    controller: new HelloController(),
+    controller: helloController,
   },
 ] as Route[];
 
@@ -75,8 +56,3 @@ defineApplication((ctx) => {
     });
   });
 }).run();
-```
-
-## More examples
-
-https://github.com/artyom-silantiev/minimal2b/tree/master/example

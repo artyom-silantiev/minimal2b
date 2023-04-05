@@ -1,4 +1,4 @@
-import { LogLevel, Logger, setGlobalLogLevel } from '@src/logger';
+import { LogLevel, Logger, setGlobalLogLevel } from 'minimal2b/logger';
 import { useEnv } from './env/env';
 
 if (useEnv().isDevEnv()) {

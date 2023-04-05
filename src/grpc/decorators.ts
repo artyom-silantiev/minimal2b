@@ -8,10 +8,14 @@ import {
 import { metadata } from '../metadata';
 
 // symbols
-export const sGrpcMiddlewares = 'sGrpcMiddlewares';
-export const sGrpcService = 'sGrpcService';
-export const sGrpcServiceCalls = 'sGrpcServiceCalls';
-export const sGrpcCall = 'sGrpcCall';
+/** @inernal */
+export const sGrpcMiddlewares = Symbol('sGrpcMiddlewares');
+/** @inernal */
+export const sGrpcService = Symbol('sGrpcService');
+/** @inernal */
+export const sGrpcServiceCalls = Symbol('sGrpcServiceCalls');
+/** @inernal */
+export const sGrpcCall = Symbol('sGrpcCall');
 
 // GrpcService decorator
 
