@@ -1,9 +1,9 @@
 import { onAppStart, tryUseGrpcService } from './grpc/server';
-import { modules, AppModuleSetup, defineAppModule } from './module';
+import { modules, AppModuleSetup, __defineAppModule } from './module';
 import { tryUseCronService } from './schedule';
 
 export function defineApplication<T>(setup: AppModuleSetup<T>) {
-  const appModule = defineAppModule(setup);
+  const appModule = __defineAppModule(setup);
 
   async function run() {
     listenExit();

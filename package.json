@@ -1,6 +1,6 @@
 {
   "name": "minimal2b",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Framework for making typescript backend apps",
   "main": "index.js",
   "types": "index.d.ts",
@@ -16,8 +16,10 @@
     "url": "https://github.com/artyom-silantiev/minimal2b.git"
   },
   "scripts": {
-    "example:01": "nodemon -r tsconfig-paths/register example/_01_base/main.ts",
-    "example:02": "nodemon -r tsconfig-paths/register example/_02_advanced/main.ts",
+    "example:base": "nodemon -r tsconfig-paths/register example/_01_base/main.ts",
+    "example:modules": "nodemon -r tsconfig-paths/register example/_02_modules/main.ts",
+    "example:cron": "nodemon -r tsconfig-paths/register example/_03_cron/main.ts",
+    "example:advanced": "nodemon -r tsconfig-paths/register example/_XX_advanced/main.ts",
     "build": "sh build.sh",
     "": "",
     "gen-grpc-types": "npx proto-loader-gen-types --longs=String --enums=String --defaults --oneofs --grpcLib=@grpc/grpc-js --outDir=grpc/_types/ grpc/*.proto"

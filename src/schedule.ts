@@ -20,7 +20,6 @@ export function Cron() {
 
 type ScheduleHandler = {
   schedule: string;
-  target: Object;
   key: string | symbol;
 };
 
@@ -28,7 +27,6 @@ export function Schedule(schedule: string) {
   return function (target: Object, key: string | symbol) {
     metadata.set([target.constructor, sScheduleHandlers, key], {
       schedule,
-      target,
       key,
     });
   } as MethodDecorator;
@@ -45,11 +43,11 @@ function useSchedules(cronService: any) {
   }
 
   for (const scheduleHandler of scheduleHandlers.values()) {
-    const handler = scheduleHandler.target[scheduleHandler.key].bind(
-      scheduleHandler.target
+    const handler = cronService[scheduleHandler.key].bind(
+      cronService
     ) as () => Promise<void> | void;
     const name = `${
-      scheduleHandler.target.constructor.name
+      cronService.constructor.name
     }@${scheduleHandler.key.toString()}`;
     new CronJob(scheduleHandler.schedule, async () => {
       try {
@@ -68,7 +66,6 @@ function useSchedules(cronService: any) {
 
 type QueueJobHandler = {
   delayMs: number;
-  target: Object;
   key: string | symbol;
 };
 
@@ -76,7 +73,6 @@ export function QueueJob(delayMs: number) {
   return function (target: Object, key: string | symbol) {
     metadata.set([target.constructor, sQueueJobHandlers, key], {
       delayMs,
-      target,
       key,
     } as QueueJobHandler);
   } as MethodDecorator;
@@ -93,11 +89,11 @@ function useQueueJobs(cronService: any) {
   }
 
   for (const queueJobHandler of queueJobHandlers.values()) {
-    const handler = queueJobHandler.target[queueJobHandler.key].bind(
-      queueJobHandler.target
+    const handler = cronService[queueJobHandler.key].bind(
+      cronService
     ) as () => Promise<void> | void;
     const name = `${
-      queueJobHandler.target.constructor.name
+      cronService.constructor.name
     }@${queueJobHandler.key.toString()}`;
 
     const queueHandle = async () => {

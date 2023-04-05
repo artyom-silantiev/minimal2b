@@ -90,6 +90,7 @@ export function defineModule<T>(setup: ModuleSetup<T>) {
   return __defineModule(false, setup);
 }
 
-export function defineAppModule<T>(setup: AppModuleSetup<T>) {
+/** @internal */
+export function __defineAppModule<T>(setup: AppModuleSetup<T>) {
   return __defineModule(true, setup);
 }

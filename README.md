@@ -1,4 +1,4 @@
-# Minimal2b (v0.1.6)
+# Minimal2b (v0.1.7)
 
 ### Description
 
