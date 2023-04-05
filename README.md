@@ -31,6 +31,7 @@ class HelloDto {
   @IsString()
   name: string;
 }
+
 @Controller()
 class HelloController {
   @Get('')

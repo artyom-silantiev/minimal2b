@@ -6,7 +6,7 @@ import { LoginDto } from './app.controller';
 import * as grpc from '@grpc/grpc-js';
 import { resolve } from 'path';
 import * as fs from 'fs-extra';
-import { useEnv } from '@example/lib/env/env';
+import { useEnv } from '@elib/env/env';
 import { holdBeforeFileExists } from './lib';
 import { Stream } from 'stream';
 import {

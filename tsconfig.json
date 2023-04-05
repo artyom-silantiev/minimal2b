@@ -16,7 +16,7 @@
     "baseUrl": ".",
     "paths": {
       "minimal2b/*": ["src/*"],
-      "@example/*": ["example/*"],
+      "@elib/*": ["example-lib/*"],
       "#grpc/*": ["grpc/_types/*"]
     }
   },

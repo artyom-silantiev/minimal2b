@@ -1,6 +1,6 @@
 import bodyParser from 'body-parser';
-import { createAppLogger } from '@example/lib/app_logger';
-import { useEnv } from '@example/lib/env/env';
+import { createAppLogger } from 'example-lib/app_logger';
+import { useEnv } from '@elib/env/env';
 import routes from './routes';
 import express from 'express';
 import { defineApplication } from 'minimal2b/application';
