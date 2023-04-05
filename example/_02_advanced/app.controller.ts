@@ -1,7 +1,7 @@
 import { IsString, MinLength } from 'class-validator';
 import { AppCtx } from './types';
 import { AuthGuard } from './http.guards';
-import { Controller, Ctx, Get, HttpException } from 'minimal2b/http';
+import { Controller, Ctx, Get, HttpException, Post } from 'minimal2b/http';
 import { validateDto } from 'minimal2b/validator';
 
 export class LoginDto {
@@ -40,9 +40,9 @@ export class AppController {
     );
   }
 
-  @Get('login')
+  @Post('login')
   async login(ctx: Ctx) {
-    const body = await validateDto(ctx.query, LoginDto);
+    const body = await validateDto(ctx.body, LoginDto);
 
     console.log('body', body);
 
