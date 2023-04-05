@@ -9,7 +9,7 @@ yarn gen-grpc-types
 
 # Examples:
 # base example
-yarn example:base
+yarn example:01
 # advanced example
-yarn example:advanced
+yarn example:02
 ```
