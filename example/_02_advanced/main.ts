@@ -25,12 +25,6 @@ const application = defineApplication((ctx) => {
 
   ctx.onModuleDestroy(async () => {
     console.log('onModuleDestroy');
-    const msg = await new Promise((resolve) => {
-      setTimeout(() => {
-        resolve('exit');
-      }, 50);
-    });
-    console.log(msg);
   });
 });
 

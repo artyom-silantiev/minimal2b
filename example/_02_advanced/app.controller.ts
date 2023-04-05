@@ -1,13 +1,7 @@
 import { IsString, MinLength } from 'class-validator';
 import { AppCtx } from './types';
-import { AuthGuard } from './guards';
-import {
-  Controller,
-  Ctx,
-  Get,
-  HttpException,
-  HttpMiddlewares,
-} from 'minimal2b/http';
+import { AuthGuard } from './http.guards';
+import { Controller, Ctx, Get, HttpException } from 'minimal2b/http';
 import { validateDto } from 'minimal2b/validator';
 
 export class LoginDto {
@@ -58,7 +52,7 @@ export class AppController {
   }
 
   @Get('user/profile')
-  @HttpMiddlewares([AuthGuard])
+  @AuthGuard()
   getProfile(ctx: AppCtx) {
     const user = ctx.req.user;
     return {
