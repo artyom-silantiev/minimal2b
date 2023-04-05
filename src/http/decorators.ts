@@ -25,7 +25,7 @@ export function HttpMiddlewares(middlewares: CtxHandler[]) {
       );
     } else {
       // class decorator
-      metadata.set([target.constructor, sHttpMiddlewares], middlewares);
+      metadata.set([target, sHttpMiddlewares], middlewares);
     }
   };
 }
@@ -78,17 +78,19 @@ export function Delete(path: string = '') {
 
 /** @inernal */
 export function parseController(controller: Object) {
-  if (!metadata.has([controller.constructor, sHttp])) {
+  const target = controller.constructor;
+
+  if (!metadata.has([target, sHttp])) {
     return null;
   }
 
-  const httpHandlers = metadata.get([
-    controller.constructor,
-    sHttpHandlers,
-  ]) as Map<string, any>;
+  const httpHandlers = metadata.get([target, sHttpHandlers]) as Map<
+    string,
+    any
+  >;
 
   const controllerMiddlewares = metadata.get([
-    controller.constructor,
+    target,
     sHttpMiddlewares,
   ]) as CtxHandler[];
 

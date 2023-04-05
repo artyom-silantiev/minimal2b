@@ -77,6 +77,6 @@ defineApplication((ctx) => {
 }).run();
 ```
 
-## More examples
+### More examples
 
 https://github.com/artyom-silantiev/minimal2b/tree/master/example
