@@ -51,9 +51,10 @@ export const HelloModule = defineModule((ctx) => {
   const helloService = new HelloService(moduleLogger);
   const helloController = new HelloController(moduleLogger, helloService);
 
-  ctx.useItems({ helloService });
-
-  return ctx.useItems({
-    helloController,
-  });
+  return ctx.useItems(
+    {
+      helloController,
+    },
+    [helloService]
+  );
 });

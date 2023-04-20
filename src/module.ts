@@ -22,11 +22,16 @@ export type ModuleWrap<T> = {
 // module
 function getModuleSetupCtx(meta: ModuleMeta) {
   return {
-    useItems<T extends Object>(items: T) {
-      for (const item of Object.values(items)) {
+    useItems<T extends Object>(publicItems: T, privateItems?: any[]) {
+      for (const item of Object.values(publicItems)) {
         meta.items.push(item);
       }
-      return items;
+      if (privateItems) {
+        for (const item of privateItems) {
+          meta.items.push(item);
+        }
+      }
+      return publicItems;
     },
     onModuleInit(handler: LifecycleHandler) {
       meta.initHandler = handler;

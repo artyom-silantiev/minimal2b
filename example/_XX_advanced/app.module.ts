@@ -8,9 +8,11 @@ export const AppModule = defineModule((ctx) => {
   const cronService = new AppCronService();
   const appGrpc = new AppGrpc();
 
-  return ctx.useItems({
-    appController,
-    cronService,
-    appGrpc,
-  });
+  return ctx.useItems(
+    {
+      appController,
+      appGrpc,
+    },
+    [cronService]
+  );
 });
