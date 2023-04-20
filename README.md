@@ -1,4 +1,4 @@
-# Minimal2b (v0.1.7)
+# Minimal2b (v0.1.8)
 
 ### Description
 
@@ -56,7 +56,7 @@ const helloController = new HelloController();
 const routes = [
   {
     path: '',
-    controller: new HelloController(),
+    controller: helloController,
   },
 ] as Route[];
 
@@ -64,7 +64,7 @@ defineApplication((ctx) => {
   const logger = new Logger('App');
   const app = express();
 
-  logger.debug('App irunning...');
+  logger.debug('App running...');
 
   app.use(bodyParser.json());
   app.use(bodyParser.urlencoded({ extended: false }));
