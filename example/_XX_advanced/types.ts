@@ -1,4 +1,4 @@
-import { Ctx } from 'minimal2b/http';
+import { CtxHttp } from 'minimal2b/http';
 import express from 'express';
 
 export type AppReq = express.Request & {
@@ -9,6 +9,6 @@ export type AppReq = express.Request & {
   };
 };
 
-export type AppCtx = Ctx & {
+export type AppCtxHttp = CtxHttp & {
   req: AppReq;
 };

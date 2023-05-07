@@ -1,20 +1,30 @@
 import express from 'express';
+import { Class } from '../types';
+import { validateDto } from '../validator';
 
-export type Ctx = ReturnType<typeof getCtx>;
-export function getCtx(
-  req: express.Request,
-  res: express.Response,
-  next: express.NextFunction
-) {
-  return {
-    body: req.body || null,
-    params: req.params || null,
-    query: req.query || null,
-    headers: req.headers || null,
-    req,
-    res,
-    next,
-  };
+export class CtxHttp {
+  get params() {
+    return this.req.params;
+  }
+  get body() {
+    return this.req.body;
+  }
+  get query() {
+    return this.req.query;
+  }
+  get headers() {
+    return this.req.headers;
+  }
+
+  constructor(
+    public req: express.Request,
+    public res: express.Response,
+    public next: express.NextFunction
+  ) {}
+
+  async validateDto<T>(obj: any, Dto: Class<T>) {
+    return await validateDto<T>(obj, Dto);
+  }
 }
 
 export type ExpHandler = (
@@ -23,7 +33,7 @@ export type ExpHandler = (
   next: express.NextFunction
 ) => Promise<void> | void;
 
-export type CtxHandler = (ctx: Ctx | any) => Promise<any> | any;
+export type CtxHandler = (ctx: CtxHttp | any) => Promise<any> | any;
 
 export type RouteHandler = {
   path?: string;

@@ -2,9 +2,8 @@ import bodyParser from 'body-parser';
 import { IsString } from 'class-validator';
 import express from 'express';
 import { defineApplication } from 'minimal2b/application';
-import { Controller, Ctx, Get, Post, Route } from 'minimal2b/http';
+import { Controller, CtxHttp, Get, Post, Route } from 'minimal2b/http';
 import { Logger } from 'minimal2b/logger';
-import { validateDto } from 'minimal2b/validator';
 
 const PORT = 3000;
 
@@ -21,13 +20,13 @@ class HelloController {
   }
 
   @Get('by_name/:name')
-  byName(ctx: Ctx) {
+  byName(ctx: CtxHttp) {
     return `Hello, ${ctx.params['name']}!`;
   }
 
   @Post('')
-  async helloByPost(ctx: Ctx) {
-    const body = await validateDto(ctx.body, HelloDto);
+  async helloByPost(ctx: CtxHttp) {
+    const body = await ctx.validateDto(ctx.body, HelloDto);
     return `Hello, ${body.name}!`;
   }
 }

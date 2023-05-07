@@ -9,11 +9,11 @@ import {
 export class AppCronService {
   @Schedule(ScheduleExpression.EVERY_30_SECONDS)
   scheduleHandler() {
-    console.log('scheduleHandler');
+    // console.log('scheduleHandler');
   }
 
   @QueueJob(30 * 1000)
   queueJobHandler() {
-    console.log('queueJobHandler');
+    // console.log('queueJobHandler');
   }
 }

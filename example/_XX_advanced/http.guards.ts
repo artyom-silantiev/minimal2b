@@ -1,7 +1,7 @@
 import { CtxHandler, HttpException, HttpMiddlewares } from 'minimal2b/http';
-import { AppCtx } from './types';
+import { AppCtxHttp } from './types';
 
-const authMiddleware: CtxHandler = (ctx: AppCtx) => {
+const authMiddleware: CtxHandler = (ctx: AppCtxHttp) => {
   console.log('authMiddleware');
 
   if (!ctx.headers.authorization) {

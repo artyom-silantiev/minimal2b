@@ -46,7 +46,7 @@ class HelloController {
 
   @Post('')
   async helloByPost(ctx: Ctx) {
-    const body = await validateDto(ctx.body, HelloDto);
+    const body = await ctx.validateDto(ctx.body, HelloDto);
     return `Hello, ${body.name}!`;
   }
 }

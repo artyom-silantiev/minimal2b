@@ -1,7 +1,6 @@
 import { IsString } from 'class-validator';
 import { defineModule } from 'minimal2b/module';
-import { Controller, Ctx, Get, Post } from 'minimal2b/http';
-import { validateDto } from 'minimal2b/validator';
+import { Controller, CtxHttp, Get, Post } from 'minimal2b/http';
 import { Logger } from 'minimal2b/logger';
 
 class HelloService {
@@ -35,13 +34,13 @@ class HelloController {
   }
 
   @Get('by_name/:name')
-  byName(ctx: Ctx) {
+  byName(ctx: CtxHttp) {
     return this.helloService.getHelloMessage(ctx.params['name']);
   }
 
   @Post('')
-  async helloByPost(ctx: Ctx) {
-    const body = await validateDto(ctx.body, HelloDto);
+  async helloByPost(ctx: CtxHttp) {
+    const body = await ctx.validateDto(ctx.body, HelloDto);
     return this.helloService.getHelloMessage(body.name);
   }
 }

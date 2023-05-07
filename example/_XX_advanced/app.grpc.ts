@@ -10,8 +10,8 @@ import { useEnv } from '@elib/env/env';
 import { holdBeforeFileExists } from './lib';
 import { Stream } from 'stream';
 import {
+  CtxGrpc,
   GrpcException,
-  GrpcMetadata,
   GrpcMethod,
   GrpcMiddleware,
   GrpcMiddlewares,
@@ -24,11 +24,11 @@ import { validateDto } from 'minimal2b/validator';
 
 const env = useEnv();
 
-const rtcAuthGuard: GrpcMiddleware = (req, metadata: GrpcMetadata) => {
-  metadata.get('access-token');
+const rtcAuthGuard: GrpcMiddleware = (ctx: CtxGrpc) => {
+  ctx.metadata.get('access-token');
 
-  if (metadata.has('access-token')) {
-    metadata.set('user', {
+  if (ctx.metadata.has('access-token')) {
+    ctx.metadata.set('user', {
       userId: '1',
       name: 'Bob',
     });
@@ -47,9 +47,9 @@ export class AppGrpc {
   }
 
   @GrpcMethod()
-  hello(call) {
+  hello(ctx: CtxGrpc) {
     return {
-      message: `Hello, ${call.name || 'World'}!`,
+      message: `Hello, ${ctx.request.name || 'World'}!`,
     };
   }
 
@@ -64,8 +64,8 @@ export class AppGrpc {
   }
 
   @GrpcMethod()
-  async login(call) {
-    const body = await validateDto(call, LoginDto);
+  async login(ctx: CtxGrpc) {
+    const body = await ctx.validateDto(ctx.request, LoginDto);
 
     return {
       accessToken: (Math.random() * 1e6 + 1e6).toString(32),
@@ -74,9 +74,9 @@ export class AppGrpc {
 
   @GrpcMethod()
   @GrpcMiddlewares([rtcAuthGuard])
-  async getProfile(call, meta: GrpcMetadata) {
-    console.log('meta', meta);
-    return meta.get('user');
+  async getProfile(ctx: CtxGrpc) {
+    console.log('meta', ctx.metadata);
+    return ctx.metadata.get('user');
   }
 
   @GrpcMethod()
@@ -111,7 +111,9 @@ export class AppGrpc {
   }
 
   @GrpcStreamCall()
-  async uploadFile(stream: Stream) {
+  async uploadFile(ctx: CtxGrpc) {
+    const stream = ctx.req as Stream;
+
     fs.mkdirsSync(env.DIR_TEMP);
     const tmp = resolve(env.DIR_TEMP, Date.now().toString());
     const ws = fs.createWriteStream(tmp);
@@ -178,7 +180,9 @@ export class AppGrpc {
   }
 
   @GrpcStreamMethod()
-  async chat(client: grpc.ClientDuplexStream<ChatMsg, ChatMsg__Output>) {
+  async chat(ctx: CtxGrpc) {
+    const client = ctx.req as grpc.ClientDuplexStream<ChatMsg, ChatMsg__Output>;
+
     await new Promise((resolve, reject) => {
       client.on('data', (chunk: ChatMsg__Output) => {
         console.log('aaa chunk', chunk);

@@ -7,6 +7,7 @@ export class ValidateException extends Error {
   }
 }
 
+/** @internal */
 export async function validateDto<T>(data: any, Dto: Class<T>) {
   const dto = new Dto();
   const validateObject = Object.assign(dto as any, data);

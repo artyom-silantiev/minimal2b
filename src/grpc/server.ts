@@ -6,8 +6,8 @@ import {
   GRPCall,
   GrpcCallType,
   GrpcServiceMeta,
-  GrpcMetadata,
   GrpcMiddleware,
+  CtxGrpc,
 } from './types';
 import {
   sGrpcCall,
@@ -33,11 +33,11 @@ export function tryUseGrpcService(grpcService: any) {
   }
 
   const grpcServiceCalls = metadata.get([
-    grpcService,
+    grpcService.constructor,
     sGrpcServiceCalls,
   ]) as Map<string, Map<symbol, any>>;
   const grpcServiceMiddlewares = metadata.get([
-    grpcService,
+    grpcService.constructor,
     sGrpcMiddlewares,
   ]) as GrpcMiddleware[];
 
@@ -106,19 +106,20 @@ function useGrpcService<T>(
   logger.log(`use gRPC service ${serviceName}`);
 
   const callsHandlers = {};
+
   calls.forEach((call) => {
     callsHandlers[call.callName] = async function (req, callback) {
-      const metadata = new GrpcMetadata(req.metadata);
+      const ctxGrpc = new CtxGrpc(call.type, req);
 
       try {
         for (const midd of globalMiddlewares) {
-          midd(req.request, metadata);
+          midd(ctxGrpc);
         }
         for (const midd of (serviceMiddlewares || []) as GrpcMiddleware[]) {
-          midd(req.request, metadata);
+          midd(ctxGrpc);
         }
         for (const midd of (call.middlewares || []) as GrpcMiddleware[]) {
-          midd(req.request, metadata);
+          midd(ctxGrpc);
         }
       } catch (error) {
         catchGrpcException(error, callback);
@@ -127,13 +128,13 @@ function useGrpcService<T>(
       const handler = service[call.key].bind(service);
       try {
         if (call.type === GrpcCallType.Method) {
-          const res = await handler(req.request, metadata);
+          const res = await handler(ctxGrpc);
           callback(null, res);
         } else if (call.type === GrpcCallType.StreamCall) {
-          const res = await handler(req, metadata);
+          const res = await handler(ctxGrpc);
           callback(null, res);
         } else if (call.type === GrpcCallType.StreamMethod) {
-          await handler(req, metadata);
+          await handler(ctxGrpc);
         }
       } catch (error) {
         catchGrpcException(error, callback);

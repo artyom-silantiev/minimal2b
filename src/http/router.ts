@@ -7,7 +7,7 @@ import {
   Method,
   Route,
   RouteHandler,
-  getCtx,
+  CtxHttp,
 } from './types';
 import { catchHttpException } from './exception';
 
@@ -60,7 +60,7 @@ function useRouteHandler(
     next: express.NextFunction
   ) => {
     try {
-      const ctx = getCtx(req, res, next);
+      const ctx = new CtxHttp(req, res, next);
 
       for (const midd of routeHandler.controllerMiddlewares || []) {
         await midd(ctx);

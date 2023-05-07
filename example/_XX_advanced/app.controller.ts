@@ -1,8 +1,7 @@
 import { IsString, MinLength } from 'class-validator';
-import { AppCtx } from './types';
+import { AppCtxHttp } from './types';
 import { AuthGuard } from './http.guards';
-import { Controller, Ctx, Get, HttpException, Post } from 'minimal2b/http';
-import { validateDto } from 'minimal2b/validator';
+import { Controller, CtxHttp, Get, HttpException, Post } from 'minimal2b/http';
 
 export class LoginDto {
   @IsString()
@@ -16,7 +15,7 @@ export class LoginDto {
 @Controller()
 export class AppController {
   @Get()
-  index(ctx: Ctx) {
+  index(ctx: CtxHttp) {
     if (ctx.query['name']) {
       return `Hello, ${ctx.query['name']}!`;
     } else {
@@ -25,12 +24,12 @@ export class AppController {
   }
 
   @Get('by_name/:name')
-  byName(ctx: Ctx) {
+  byName(ctx: CtxHttp) {
     return `Hello, ${ctx.params.name}!`;
   }
 
   @Get('throw')
-  getThrow(ctx: Ctx) {
+  getThrow(ctx: CtxHttp) {
     throw new HttpException(
       {
         badError: 'WTF!',
@@ -41,8 +40,8 @@ export class AppController {
   }
 
   @Post('login')
-  async login(ctx: Ctx) {
-    const body = await validateDto(ctx.body, LoginDto);
+  async login(ctx: CtxHttp) {
+    const body = await ctx.validateDto(ctx.body, LoginDto);
 
     console.log('body', body);
 
@@ -53,7 +52,7 @@ export class AppController {
 
   @Get('user/profile')
   @AuthGuard()
-  getProfile(ctx: AppCtx) {
+  getProfile(ctx: AppCtxHttp) {
     const user = ctx.req.user;
     return {
       id: user.id,
