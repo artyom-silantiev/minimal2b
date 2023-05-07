@@ -1,6 +1,8 @@
 import { validate } from 'class-validator';
 import { Class } from './types';
 
+export const CustomDataKey = Symbol('CustomDataKey');
+
 export class ValidateException extends Error {
   constructor(public message: string | any) {
     super();
@@ -8,9 +10,16 @@ export class ValidateException extends Error {
 }
 
 /** @internal */
-export async function validateDto<T>(data: any, Dto: Class<T>) {
+export async function validateDto<T>(
+  data: any,
+  Dto: Class<T>,
+  customDataMap?: Map<string | symbol, any>
+) {
   const dto = new Dto();
-  const validateObject = Object.assign(dto as any, data);
+  const validateObject = Object.assign(dto as any, {
+    ...data,
+    [CustomDataKey]: customDataMap,
+  });
 
   const errors = await validate(validateObject);
 

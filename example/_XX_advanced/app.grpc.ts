@@ -20,18 +20,18 @@ import {
   GrpcStreamCall,
   GrpcStreamMethod,
 } from 'minimal2b/grpc';
-import { validateDto } from 'minimal2b/validator';
+import { AppUser, AppUserKey } from './types';
+import { TestDto } from './custom_validator';
 
 const env = useEnv();
 
 const rtcAuthGuard: GrpcMiddleware = (ctx: CtxGrpc) => {
-  ctx.metadata.get('access-token');
-
-  if (ctx.metadata.has('access-token')) {
-    ctx.metadata.set('user', {
-      userId: '1',
-      name: 'Bob',
-    });
+  if (ctx.metadata.get('access-token')[0]) {
+    ctx.set(AppUserKey, {
+      id: '1337',
+      name: 'User',
+      email: 'user@this-app.io',
+    } as AppUser);
   } else {
     throw new GrpcException('Forbidden', grpc.status.UNAUTHENTICATED);
   }
@@ -75,8 +75,9 @@ export class AppGrpc {
   @GrpcMethod()
   @GrpcMiddlewares([rtcAuthGuard])
   async getProfile(ctx: CtxGrpc) {
-    console.log('meta', ctx.metadata);
-    return ctx.metadata.get('user');
+    await ctx.validateDto({ test: 'test' }, TestDto);
+
+    return ctx.get(AppUserKey) as AppUser;
   }
 
   @GrpcMethod()

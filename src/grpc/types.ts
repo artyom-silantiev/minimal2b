@@ -2,32 +2,6 @@ import * as grpc from '@grpc/grpc-js';
 import { validateDto } from '../validator';
 import { Class } from '../types';
 
-export class GrpcMetadata {
-  private metadata = {} as {
-    [key: string]: any;
-  };
-
-  constructor(metadata: grpc.Metadata) {
-    this.metadata = metadata.getMap();
-  }
-
-  has(key: string) {
-    return typeof this.metadata[key] !== 'undefined';
-  }
-
-  get(key: string) {
-    return this.metadata[key];
-  }
-
-  set(key: string, value: any) {
-    this.metadata[key] = value;
-  }
-
-  delete(key: string) {
-    delete this.metadata[key];
-  }
-}
-
 export type GrpcMiddleware = {
   (ctxGrpc: CtxGrpc): void;
 };
@@ -53,17 +27,37 @@ export type GRPCall = {
 };
 
 export class CtxGrpc {
-  public metadata: GrpcMetadata;
+  private customData: Map<string | symbol, any>;
+  public metadata: grpc.Metadata;
 
   get request() {
     return this.req.request;
   }
 
   constructor(public type: GrpcCallType, public req: any) {
-    this.metadata = new GrpcMetadata(req.metadata);
+    this.metadata = req.metadata;
   }
 
   async validateDto<T>(obj: any, Dto: Class<T>) {
-    return validateDto(obj, Dto);
+    return validateDto(obj, Dto, this.customData);
+  }
+
+  set(key: string | symbol, value: any) {
+    if (!this.customData) {
+      this.customData = new Map<string | symbol, any>();
+    }
+    this.customData.set(key, value);
+  }
+  get(key: string | symbol) {
+    if (!this.customData) {
+      return null;
+    }
+    return this.customData.get(key);
+  }
+  del(key: string | symbol) {
+    if (!this.customData) {
+      return;
+    }
+    this.customData.delete(key);
   }
 }

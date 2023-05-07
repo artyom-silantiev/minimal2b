@@ -3,6 +3,8 @@ import { Class } from '../types';
 import { validateDto } from '../validator';
 
 export class CtxHttp {
+  private customData: Map<string | symbol, any>;
+
   get params() {
     return this.req.params;
   }
@@ -23,7 +25,26 @@ export class CtxHttp {
   ) {}
 
   async validateDto<T>(obj: any, Dto: Class<T>) {
-    return await validateDto<T>(obj, Dto);
+    return await validateDto<T>(obj, Dto, this.customData);
+  }
+
+  set(key: string | symbol, value: any) {
+    if (!this.customData) {
+      this.customData = new Map<string | symbol, any>();
+    }
+    this.customData.set(key, value);
+  }
+  get(key: string | symbol) {
+    if (!this.customData) {
+      return null;
+    }
+    return this.customData.get(key);
+  }
+  del(key: string | symbol) {
+    if (!this.customData) {
+      return;
+    }
+    this.customData.delete(key);
   }
 }
 

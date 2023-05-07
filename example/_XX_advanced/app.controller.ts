@@ -1,5 +1,5 @@
 import { IsString, MinLength } from 'class-validator';
-import { AppCtxHttp } from './types';
+import { AppUser, AppUserKey } from './types';
 import { AuthGuard } from './http.guards';
 import { Controller, CtxHttp, Get, HttpException, Post } from 'minimal2b/http';
 
@@ -52,12 +52,8 @@ export class AppController {
 
   @Get('user/profile')
   @AuthGuard()
-  getProfile(ctx: AppCtxHttp) {
-    const user = ctx.req.user;
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-    };
+  getProfile(ctx: CtxHttp) {
+    const user = ctx.get(AppUserKey) as AppUser;
+    return user;
   }
 }
